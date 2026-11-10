@@ -1,0 +1,33 @@
+name: CVS Selenium Automation
+
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  selenium-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '23'
+          cache: maven
+
+      - name: Check Java and Maven
+        run: |
+          java -version
+          mvn -version
+
+      - name: Execute Selenium Test Suite
+        run: mvn --batch-mode clean test
